@@ -1,0 +1,31 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H 13.204.77.216 >> ~/.ssh/known_hosts
+
+      - name: Deploy to EC2
+        run: |
+          ssh ubuntu@13.204.77.216 "
+            cd ~/myapp || git clone https://github.com/Shubham592000/TGPC-DevOps-project.git ~/myapp;
+            cd ~/myapp;
+            git pull;
+            pkill -f app.py || true;
+            nohup python3 app.py > app.log 2>&1 &
+          "
