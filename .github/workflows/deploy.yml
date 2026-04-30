@@ -16,17 +16,17 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          printf "%s" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H 13.201.100.157 >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
         run: |
-          ssh -i ~/.ssh/id_ed25519 ubuntu@13.201.100.157 << 'EOF'
-            cd ~/myapp || git clone https://github.com/Shubham592000/TGPC-DevOps-project.git ~/myapp
-            cd ~/myapp
-            git fetch origin
-            git reset --hard origin/main
-            pkill -f app.py || true
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ubuntu@13.201.100.157 "
+            cd ~/myapp || git clone https://github.com/Shubham592000/TGPC-DevOps-project.git ~/myapp &&
+            cd ~/myapp &&
+            git fetch origin &&
+            git reset --hard origin/main &&
+            pkill -f app.py || true &&
             nohup python3 app.py > app.log 2>&1 &
-          EOF
+          "
