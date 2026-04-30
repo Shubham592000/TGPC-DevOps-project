@@ -22,7 +22,7 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh ubuntu@13.201.100.157 << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 ubuntu@13.201.100.157 << 'EOF'
             cd ~/myapp || git clone https://github.com/Shubham592000/TGPC-DevOps-project.git ~/myapp
             cd ~/myapp
             git fetch origin
