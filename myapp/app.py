@@ -6,9 +6,9 @@ app = Flask(__name__)
 def home():
     return """
     <h1>Welcome to DevOps CI/CD Project 🚀</h1>
-    <h2>This is Experiment 3 using GitHub Actions!</h2>
-    <p>Deployed using GitHub Actions</p>
-    <p>Status: Application is running successfully ✅</p>
+    <h2>This is Experiment 4: Write a Docker file to containerize a Python Flask application.</h2>
+    <p>Deployed using Docker container</p>
+    <p>Status: Application is running successfully on container ✅</p>
     """
 
 if __name__ == "__main__":
